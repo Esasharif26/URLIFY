@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>URLify Admin Dashboard</title>
+
+<link rel="stylesheet" href="admin.css">
+```
+
+</head>
+
+<body>
+
+```
+<!-- ================================
+     Admin Header
+     ================================ -->
+
+<header class="admin-header">
+
+    <div class="admin-logo">
+        URL<span>ify</span>
+    </div>
+
+    <div class="admin-header-right">
+
+        <div class="admin-badge">
+            Admin
+        </div>
+
+        <button id="logoutBtn" class="logout-btn">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ================================
+     Admin Dashboard
+     ================================ -->
+
+<main class="admin-container">
+
+    <h1 class="page-title">
+        Admin Dashboard
+    </h1>
+
+    <p class="page-subtitle">
+        Monitor and manage URLify from one place.
+    </p>
+
+
+    <!-- ================================
+         Statistics
+         ================================ -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-card-top">
+                <span class="stat-title">
+                    Total Users
+                </span>
+
+                <div class="stat-icon">
+                    👥
+                </div>
+            </div>
+
+            <div id="totalUsers" class="stat-value">
+                —
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-card-top">
+                <span class="stat-title">
+                    Total Links
+                </span>
+
+                <div class="stat-icon">
+                    🔗
+                </div>
+            </div>
+
+            <div id="totalLinks" class="stat-value">
+                —
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-card-top">
+                <span class="stat-title">
+                    Total Clicks
+                </span>
+
+                <div class="stat-icon">
+                    📈
+                </div>
+            </div>
+
+            <div id="totalClicks" class="stat-value">
+                —
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-card-top">
+                <span class="stat-title">
+                    Links Today
+                </span>
+
+                <div class="stat-icon">
+                    📅
+                </div>
+            </div>
+
+            <div id="linksToday" class="stat-value">
+                —
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         Dashboard Sections
+         ================================ -->
+
+    <section class="dashboard-grid">
+
+
+        <!-- Most Clicked Links -->
+
+        <div class="dashboard-card">
+
+            <h2 class="card-title">
+                🔥 Most Clicked Links
+            </h2>
+
+            <div id="topLinksContainer">
+
+                <div class="loading">
+                    Loading...
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Users -->
+
+        <div class="dashboard-card">
+
+            <h2 class="card-title">
+                👥 Users
+            </h2>
+
+            <div id="usersContainer">
+
+                <div class="loading">
+                    Loading...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         All Links
+         ================================ -->
+
+    <section class="dashboard-card">
+
+        <h2 class="card-title">
+            🔗 All Links
+        </h2>
+
+        <input
+            type="text"
+            id="searchInput"
+            class="search-box"
+            placeholder="Search by short code or URL..."
+        >
+
+        <div class="table-wrapper">
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Short Code
+                        </th>
+
+                        <th>
+                            Original URL
+                        </th>
+
+                        <th>
+                            Clicks
+                        </th>
+
+                        <th>
+                            Created
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="linksTableBody">
+
+                    <tr>
+
+                        <td colspan="5">
+
+                            <div class="loading">
+                                Loading links...
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================================
+     Toast
+     ================================ -->
+
+<div id="toast" class="toast">
+    Message
+</div>
+
+
+<!-- ================================
+     Firebase + Admin JavaScript
+     ================================ -->
+
+<script type="module" src="admin.js"></script>
+```
+
+</body>
+</html>
