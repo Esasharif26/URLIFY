@@ -18,8 +18,8 @@ import {
    API
 ===================================================== */
 
-const API_URL = "http://127.0.0.1:8000/api/links";
-const BACKEND_URL = "http://127.0.0.1:8000";
+const API_URL = "https://urlify-api.onrender.com/api/links";
+const BACKEND_URL = "https://urlify-api.onrender.com";
 
 
 /* =====================================================
