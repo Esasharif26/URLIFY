@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="URLify - Create, manage and track your short URLs."
+    >
+
+    <title>URLify — Smart URL Shortener</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <header class="navbar">
+        <div class="nav-container">
+
+            <a href="#home" class="logo">
+                <span class="logo-icon">🔗</span>
+                <span>URLify</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#shortener">Shorten</a>
+                <a href="#history">History</a>
+                <a href="#stats">Stats</a>
+            </nav>
+
+            <div class="nav-actions">
+
+                <button
+                    id="themeBtn"
+                    class="icon-btn"
+                    type="button"
+                    title="Toggle theme"
+                    aria-label="Toggle theme"
+                >
+                    🌙
+                </button>
+
+                <div id="guestActions" class="auth-actions">
+
+                    <button
+                        id="loginBtn"
+                        class="secondary-btn"
+                        type="button"
+                    >
+                        Login
+                    </button>
+
+                    <button
+                        id="registerBtn"
+                        class="primary-btn"
+                        type="button"
+                    >
+                        Get Started
+                    </button>
+
+                </div>
+
+                <div
+                    id="userActions"
+                    class="user-actions hidden"
+                >
+
+                    <span id="userEmail">User</span>
+
+                    <button
+                        id="logoutBtn"
+                        class="logout-btn"
+                        type="button"
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main>
+
+        <!-- =========================
+             HERO
+        ========================= -->
+
+        <section id="home" class="hero">
+
+            <div class="hero-content">
+
+                <span class="eyebrow">
+                    ⚡ Fast. Simple. Powerful.
+                </span>
+
+                <h1>
+                    Shorten your URLs.
+                    <span>Share them anywhere.</span>
+                </h1>
+
+                <p>
+                    Turn long URLs into clean, memorable links with
+                    custom aliases, QR codes and click tracking.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="#shortener"
+                        class="primary-btn hero-btn"
+                    >
+                        Start Shortening
+                    </a>
+
+                    <a
+                        href="#history"
+                        class="secondary-btn hero-btn"
+                    >
+                        View History
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SHORTENER
+        ========================= -->
+
+        <section
+            id="shortener"
+            class="shortener-section"
+        >
+
+            <div class="section-container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        URL SHORTENER
+                    </span>
+
+                    <h2>
+                        Create your short link
+                    </h2>
+
+                    <p>
+                        Enter a long URL and optionally create your own alias.
+                    </p>
+
+                </div>
+
+
+                <div class="shortener-card">
+
+                    <!-- LOGIN REQUIRED -->
+
+                    <div
+                        class="login-required"
+                        id="loginRequired"
+                    >
+
+                        <div class="lock-icon">
+                            🔒
+                        </div>
+
+                        <h3>
+                            Login required
+                        </h3>
+
+                        <p>
+                            Please login or create an account before
+                            creating and managing your links.
+                        </p>
+
+                        <button
+                            id="loginRequiredBtn"
+                            class="primary-btn"
+                            type="button"
+                        >
+                            Login / Register
+                        </button>
+
+                    </div>
+
+
+                    <!-- SHORTENER FORM -->
+
+                    <form
+                        id="shortenerForm"
+                        class="shortener-form hidden"
+                    >
+
+                        <div class="input-group">
+
+                            <label for="urlInput">
+                                Long URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="urlInput"
+                                placeholder="https://example.com/your-long-url"
+                                autocomplete="url"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <div class="label-row">
+
+                                <label for="aliasInput">
+                                    Custom alias
+                                    <span class="optional">
+                                        Optional
+                                    </span>
+                                </label>
+
+                                <span id="aliasCounter">
+                                    0/30
+                                </span>
+
+                            </div>
+
+
+                            <div class="alias-input-wrapper">
+
+                                <span class="alias-prefix">
+                                    /r/
+                                </span>
+
+                                <input
+                                    type="text"
+                                    id="aliasInput"
+                                    placeholder="my-link"
+                                    maxlength="30"
+                                    autocomplete="off"
+                                >
+
+                            </div>
+
+
+                            <div
+                                id="aliasStatus"
+                                class="alias-status"
+                                aria-live="polite"
+                            ></div>
+
+
+                            <p
+                                id="aliasMessage"
+                                class="input-help"
+                            >
+                                Use letters, numbers, hyphens or underscores.
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            id="shortenBtn"
+                            class="primary-btn shorten-btn"
+                        >
+
+                            <span id="shortenBtnText">
+                                Shorten URL
+                            </span>
+
+                            <span
+                                id="shortenLoader"
+                                class="loader hidden"
+                            ></span>
+
+                        </button>
+
+
+                        <div
+                            id="errorMessage"
+                            class="error-message hidden"
+                            role="alert"
+                        ></div>
+
+                    </form>
+
+
+                    <!-- RESULT -->
+
+                    <div
+                        id="resultCard"
+                        class="result-card hidden"
+                    >
+
+                        <div class="result-header">
+
+                            <div>
+
+                                <span class="result-label">
+                                    Your short URL
+                                </span>
+
+                                <a
+                                    href="#"
+                                    id="shortUrl"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                ></a>
+
+                            </div>
+
+                            <span class="success-icon">
+                                ✓
+                            </span>
+
+                        </div>
+
+
+                        <div class="result-actions">
+
+                            <button
+                                id="copyBtn"
+                                class="action-btn"
+                                type="button"
+                            >
+                                📋 Copy
+                            </button>
+
+                            <button
+                                id="openBtn"
+                                class="action-btn"
+                                type="button"
+                            >
+                                ↗ Open
+                            </button>
+
+                            <button
+                                id="qrBtn"
+                                class="action-btn"
+                                type="button"
+                            >
+                                ▣ QR Code
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="qrContainer"
+                            class="qr-container hidden"
+                        >
+
+                            <div id="qrcode"></div>
+
+                            <button
+                                id="downloadQrBtn"
+                                class="secondary-btn"
+                                type="button"
+                            >
+                                Download QR
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             STATS
+        ========================= -->
+
+        <section
+            id="stats"
+            class="stats-section"
+        >
+
+            <div class="section-container">
+
+                <div class="section-heading">
+                    <span class="section-label">
+                        ANALYTICS
+                    </span>
+
+                    <h2>
+                        Your URLify stats
+                    </h2>
+
+                    <p>
+                        Keep track of your links and their performance.
+                    </p>
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <article class="stat-card">
+
+                        <span class="stat-icon">
+                            🔗
+                        </span>
+
+                        <div>
+                            <span
+                                class="stat-value"
+                                id="totalLinks"
+                            >
+                                0
+                            </span>
+
+                            <span class="stat-label">
+                                Total Links
+                            </span>
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <span class="stat-icon">
+                            👆
+                        </span>
+
+                        <div>
+                            <span
+                                class="stat-value"
+                                id="totalClicks"
+                            >
+                                0
+                            </span>
+
+                            <span class="stat-label">
+                                Total Clicks
+                            </span>
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <span class="stat-icon">
+                            📅
+                        </span>
+
+                        <div>
+                            <span
+                                class="stat-value"
+                                id="todayLinks"
+                            >
+                                0
+                            </span>
+
+                            <span class="stat-label">
+                                Created Today
+                            </span>
+                        </div>
+
+                    </article>
+
+
+                    <article class="stat-card">
+
+                        <span class="stat-icon">
+                            👤
+                        </span>
+
+                        <div>
+                            <span
+                                class="stat-value"
+                                id="accountStatus"
+                            >
+                                Guest
+                            </span>
+
+                            <span class="stat-label">
+                                Account
+                            </span>
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             HISTORY
+        ========================= -->
+
+        <section
+            id="history"
+            class="history-section"
+        >
+
+            <div class="section-container">
+
+                <div class="section-heading history-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            YOUR LINKS
+                        </span>
+
+                        <h2>
+                            Link history
+                        </h2>
+
+                        <p>
+                            Manage and monitor your shortened URLs.
+                        </p>
+
+                    </div>
+
+
+                    <div class="history-actions">
+
+                        <button
+                            id="exportBtn"
+                            class="secondary-btn"
+                            type="button"
+                        >
+                            Export CSV
+                        </button>
+
+                        <button
+                            id="clearBtn"
+                            class="danger-btn"
+                            type="button"
+                        >
+                            Clear All
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="historyContent"
+                    class="history-content"
+                >
+
+                    <div class="history-toolbar">
+
+                        <div class="search-wrapper">
+
+                            <span aria-hidden="true">
+                                🔍
+                            </span>
+
+                            <input
+                                type="search"
+                                id="searchInput"
+                                placeholder="Search your links..."
+                                aria-label="Search your links"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="historyList"
+                        class="history-list"
+                    ></div>
+
+
+                    <div
+                        id="emptyHistory"
+                        class="empty-history"
+                    >
+
+                        <div class="empty-icon">
+                            🔗
+                        </div>
+
+                        <h3>
+                            No links yet
+                        </h3>
+
+                        <p>
+                            Create your first short URL and it will
+                            appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         AUTH MODAL
+    ========================= -->
+
+    <div
+        id="authModal"
+        class="modal hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="authTitle"
+    >
+
+        <div class="modal-overlay"></div>
+
+        <div class="auth-modal">
+
+            <button
+                id="closeAuthModal"
+                class="modal-close"
+                type="button"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+
+            <div class="auth-header">
+
+                <div class="auth-logo">
+                    🔗
+                </div>
+
+                <h2 id="authTitle">
+                    Welcome to URLify
+                </h2>
+
+                <p id="authSubtitle">
+                    Login to manage your links.
+                </p>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <form
+                id="loginForm"
+                class="auth-form"
+            >
+
+                <div class="input-group">
+
+                    <label for="loginEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        minlength="6"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <div
+                    id="loginError"
+                    class="auth-error hidden"
+                    role="alert"
+                ></div>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn auth-submit"
+                >
+                    Login
+                </button>
+
+
+                <p class="auth-switch">
+                    Don't have an account?
+
+                    <button
+                        id="showRegister"
+                        type="button"
+                    >
+                        Create one
+                    </button>
+                </p>
+
+            </form>
+
+
+            <!-- REGISTER -->
+
+            <form
+                id="registerForm"
+                class="auth-form hidden"
+            >
+
+                <div class="input-group">
+
+                    <label for="registerName">
+                        Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registerName"
+                        placeholder="Your name"
+                        maxlength="50"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="registerEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="registerPassword">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        placeholder="Minimum 6 characters"
+                        minlength="6"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <div
+                    id="registerError"
+                    class="auth-error hidden"
+                    role="alert"
+                ></div>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn auth-submit"
+                >
+                    Create Account
+                </button>
+
+
+                <p class="auth-switch">
+                    Already have an account?
+
+                    <button
+                        id="showLogin"
+                        type="button"
+                    >
+                        Login
+                    </button>
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         CLEAR MODAL
+    ========================= -->
+
+    <div
+        id="clearModal"
+        class="modal hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="clearTitle"
+    >
+
+        <div class="modal-overlay"></div>
+
+        <div class="confirm-modal">
+
+            <div class="confirm-icon">
+                ⚠️
+            </div>
+
+            <h2 id="clearTitle">
+                Clear all links?
+            </h2>
+
+            <p>
+                This will permanently delete all your URLify
+                links from the database.
+            </p>
+
+            <div class="confirm-actions">
+
+                <button
+                    id="cancelClear"
+                    class="secondary-btn"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    id="confirmClear"
+                    class="danger-btn"
+                    type="button"
+                >
+                    Delete All
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         TOAST
+    ========================= -->
+
+    <div
+        id="toast"
+        class="toast"
+        role="status"
+        aria-live="polite"
+    ></div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+                <div class="logo">
+                    <span class="logo-icon">🔗</span>
+                    <span>URLify</span>
+                </div>
+
+                <p>
+                    Smart URL shortening made simple.
+                </p>
+            </div>
+
+            <span>
+                © 2026 URLify
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         QR CODE LIBRARY
+    ========================= -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    ></script>
+
+
+    <!-- =========================
+         MAIN JAVASCRIPT
+    ========================= -->
+
+    <script
+        type="module"
+        src="script.js"
+    ></script>
+
+</body>
+</html>
